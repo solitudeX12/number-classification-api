@@ -48,6 +48,8 @@ API will be accessible at:
 Local URL: http://127.0.0.1:8000
 Swagger UI: http://127.0.0.1:8000/docs
 
+---
+
 ## 📡 API Endpoints
 ### Classify Number
 **Endpoint:** `GET /api/classify-number?number=<integer>`
@@ -56,6 +58,8 @@ Swagger UI: http://127.0.0.1:8000/docs
 ```sh
 curl -X GET "http://127.0.0.1:8000/api/classify-number?number=371"
 ```
+
+---
 
 ### Example Response:
 ```
@@ -69,6 +73,8 @@ curl -X GET "http://127.0.0.1:8000/api/classify-number?number=371"
 }
 ```
 
+---
+
 ## Error Handling:
 
 If a non-integer input is provided:
@@ -79,12 +85,15 @@ If a non-integer input is provided:
 }
 ```
 
+---
+
 ## 🌍 Deployment:
 
 You can deploy the API using AWS EC2, AWS Lambda, or Docker.
 I deployed the API using Lambda and API gateway.
 Check out this blog post for instructions;
 
+---
 
 ## 🛠 Contributing
 
@@ -95,6 +104,7 @@ Commit your changes (git commit -m "Add new feature")
 Push to GitHub (git push origin feature-name)
 Create a Pull Request
 
+---
 
 ## 📜 License
 
