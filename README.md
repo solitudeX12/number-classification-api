@@ -40,7 +40,7 @@ cd number-classification-api
    ```
 ---
 
-##🚀 Running the API Locally
+## 🚀 Running the API Locally
 ```
 uvicorn main:app --reload
 ```
@@ -48,7 +48,7 @@ API will be accessible at:
 Local URL: http://127.0.0.1:8000
 Swagger UI: http://127.0.0.1:8000/docs
 
-##📡 API Endpoints
+## 📡 API Endpoints
 ### Classify Number
 **Endpoint:** `GET /api/classify-number?number=<integer>`
 
@@ -79,14 +79,14 @@ If a non-integer input is provided:
 }
 ```
 
-##🌍 Deployment:
+## 🌍 Deployment:
 
 You can deploy the API using AWS EC2, AWS Lambda, or Docker.
 I deployed the API using Lambda and API gateway.
 Check out this blog post for instructions;
 
 
-##🛠 Contributing
+## 🛠 Contributing
 
 Fork the repository
 Clone your fork
@@ -96,6 +96,6 @@ Push to GitHub (git push origin feature-name)
 Create a Pull Request
 
 
-##📜 License
+## 📜 License
 
 This project is open-source under the MIT License.
