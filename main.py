@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import math
 import httpx  # Import httpx for making API calls
+from mangum import Mangum  # Adapter for AWS Lambda
 
 # Initialize FastAPI app
 app = FastAPI(title="Number Classification API")
@@ -68,3 +69,6 @@ async def classify_number(number: str):
     }
     
     return response
+
+# Create a Mangum handler for Lambda
+handler = Mangum(app)
