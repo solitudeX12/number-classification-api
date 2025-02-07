@@ -17,58 +17,55 @@ app.add_middleware(
 )
 
 def is_prime(n: int) -> bool:
-    """Check if a number is prime."""
     if n < 2:
         return False
-    for i in range(2, int(math.sqrt(n)) + 1):
+    for i in range(2, int(n ** 0.5) + 1):
         if n % i == 0:
             return False
     return True
 
-def is_fibonacci(n: int) -> bool:
-    """Check if a number is in the Fibonacci sequence."""
-    x1 = 5 * (n ** 2) + 4
-    x2 = 5 * (n ** 2) - 4
-    return math.isqrt(x1) ** 2 == x1 or math.isqrt(x2) ** 2 == x2
+def is_perfect(n: int) -> bool:
+    return n > 0 and sum(i for i in range(1, n) if n % i == 0) == n
 
-async def get_fun_fact(n: int) -> str:
-    """Fetches a fun fact from an external API."""
-    url = f"http://numbersapi.com/{n}/math"  # External API for math facts
+def get_digit_sum(n: int) -> int:
+    return sum(int(digit) for digit in str(abs(n)))
+
+def get_properties(n: int) -> list:
+    properties = []
+    if n % 2 == 0:
+        properties.append("Even")
+    else:
+        properties.append("Odd")
+    if n > 0:
+        properties.append("Positive")
+    elif n < 0:
+        properties.append("Negative")
+    return properties
+
+def get_fun_fact(n: int) -> str:
     try:
-        async with httpx.AsyncClient() as client:
-            response = await client.get(url)
-            if response.status_code == 200:
-                return response.text  # Returns the fun fact
-            else:
-                return f"No fun fact found for {n}."
-    except Exception:
-        return f"Could not retrieve a fun fact for {n}."
+        response = requests.get(f"http://numbersapi.com/{n}", timeout=5)
+        if response.status_code == 200:
+            return response.text
+    except requests.exceptions.RequestException:
+        return "No fun fact available at the moment."
+    return "No fun fact available."
 
 @app.get("/classify/{number}")
-async def classify_number(number: str):
-    """
-    Classifies a given number and returns its mathematical properties in JSON format.
-    """
-    # Validate input: Accept only integers
-    if not number.isdigit() and not (number.startswith('-') and number[1:].isdigit()):
-        raise HTTPException(status_code=400, detail={"number": number, "error": True})
-
-    num = int(number)
-
-    # Fetch fun fact asynchronously
-    fun_fact = await get_fun_fact(num)
-
-    # Construct response
-    response = {
-        "number": num,
-        "error": False,
-        "is_even": num % 2 == 0,
-        "is_prime": is_prime(num),
-        "is_fibonacci": is_fibonacci(num),
-        "fun_fact": fun_fact,
+async def classify_number(number: int, response: Response) -> Dict:
+    result = {
+        "number": number,
+        "prime": is_prime(number),
+        "perfect": is_perfect(number),
+        "properties": get_properties(number),
+        "digit_sum": get_digit_sum(number),
+        "fun_fact": get_fun_fact(number)
     }
     
-    return response
+    # Set JSON response headers explicitly
+    response.headers["Content-Type"] = "application/json"
+    return result
+
 
 # Create a Mangum handler for Lambda
 handler = Mangum(app)
