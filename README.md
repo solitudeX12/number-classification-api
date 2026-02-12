@@ -91,7 +91,6 @@ If a non-integer input is provided:
 
 You can deploy the API using AWS EC2, AWS Lambda, or Docker.
 I deployed the API using Lambda and API gateway.
-Check out this blog post for instructions;
 
 ---
 
